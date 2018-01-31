@@ -38,4 +38,34 @@ public extension Array {
         return elements
     }
     
+    /// 交换元素段的位置。xArrIndexs、yArrIndexs里面的索引必须是连贯的，
+    /// 且xArrIndexs和yArrIndexs必须是没有交集的。
+    ///
+    /// - Parameters:
+    ///   - xArrIndexs: 需要交换位置的元素的索引
+    ///   - yArrIndexs:  需要交换位置的元素的索引
+    mutating func swap(xArrIndexs: [Int], yArrIndexs: [Int]) {
+        
+        var xIndexs: [Int]!
+        var yIndexs: [Int]!
+        if xArrIndexs.first! < yArrIndexs.first! {
+            xIndexs = xArrIndexs
+            yIndexs = yArrIndexs
+        } else {
+            xIndexs = yArrIndexs
+            yIndexs = xArrIndexs
+        }
+        
+        let distand = Swift.abs(xIndexs.last! - yIndexs.first!) - 1
+        let firstMoveOffset = distand
+        move(at: xIndexs.first!, lenght: xIndexs.count, offset: firstMoveOffset)
+        
+        //现在 xIndexs元素已经插到yIndexs元素前面了,
+        //但是注意！此时yIndexs元素的索引是没有受到影响的。
+        
+        let secondMoveOffset = -(xIndexs.count + distand)
+        move(at: yIndexs.first!, lenght: yIndexs.count, offset: secondMoveOffset)
+        
+    }
+    
 }
